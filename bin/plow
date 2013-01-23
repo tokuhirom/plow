@@ -1,0 +1,29 @@
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use utf8;
+use 5.16.2;
+use Getopt::Long;
+
+GetOptions(
+    'e=s' => \my $eval,
+);
+
+use FindBin;
+use File::Spec;
+
+my $libpath = File::Spec->catdir($FindBin::RealBin, '../lib');
+
+if (defined $eval) {
+    system($^X, "-I$libpath", '-MPlow', '-CSDLA', '-E', $eval, '--', @ARGV);
+} elsif (@ARGV > 0) {
+    $ENV{PERLIO} = ':utf8';
+    system($^X, "-I$libpath", '-MPlow', '-CSDLA', '--', @ARGV);
+} elsif (-t STDIN) {
+    # repl
+    ...
+} else {
+    # do it?
+    ...
+}
+
