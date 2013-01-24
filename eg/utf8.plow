@@ -1,9 +1,8 @@
-unshift @INC, 'eg/lib';
 use Test::More;
 
 ok(utf8::is_utf8('あいう'));
 warn 'あいう';
-require Hoge;
+beam Hoge;
 
 ok(utf8::is_utf8(slurp(__FILE__)), 'utf8 by default');
 ok(utf8::is_utf8(slurp(__FILE__, '<:utf8')));

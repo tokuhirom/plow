@@ -10,59 +10,39 @@ use Time::Piece qw/:override/; # override localtime, gmtime
 use File::stat (); # make stat() function OO.
 use Devel::Declare::MethodInstaller::Simple;
 
-package Plow::Hook {
-    sub new {
-        my $class = shift;
-        bless {}, $class;
-    }
+sub plowfy {
+    my ($class, $fname, $src) = @_;
 
-    sub Plow::Hook::INC {
-        my $self = shift;
-        my $origmodule = shift;
-        my $module = $origmodule;
-        $module =~ s/\.pm$// or return;
-        $module .= ".plow";
+    return join("\n",
+        "use 5.10.0; use utf8::all; use Plow::Signatures; use Plow::Signatures::Beam;",
+        "#line 1 $fname",
+        $src,
+    );
+}
 
-        for my $path (@INC) {
-            next if ref $path; # for deep recursion
+sub beam {
+    my ($class, $module) = @_;
+    $module =~ s!::!/!g;
+    $module .= ".plow";
 
-            if (-f "$path/$module") {
-                my $fullpath = "$path/$module";
-                $INC{$origmodule} = $fullpath;
-                open my $fh, '<', $fullpath;
-                my @src = (
-                    "use 5.10.0; use strict; use warnings; use utf8::all;\n",
-                    "#line 1 $module\n",
-                );
-                return sub {
-                    if (@src) {
-                        $_ = shift @src;
-                        return 1;
-                    } else {
-                        $_ = <$fh>;
-                        if (/package\s+([A-Za-z_][A-Za-z0-9_:]*)/) {
-                            my $pkg = $1;
-                            Plow::Functions->export_to($pkg);
-                            # Plow::Signatures->install($pkg);
-                        }
-                        return !eof($fh);
-                    }
-                };
-            }
+    for my $path (@INC) {
+        next if ref $path; # for deep recursion
+
+        if (-f "$path/$module") {
+            my $fullpath = "$path/$module";
+            $INC{$module} = $fullpath;
+            open my $fh, '<', $fullpath;
+            eval Plow->plowfy($fullpath, do { local $/; <$fh> });
+            return;
         }
-
-        return;
     }
+    die "$module not found in library path( @{[ join(', ', @INC) ]} )\n";
 }
 
 {
     package main;
     use Plow::Functions;
     use Plow::Signatures;
-}
-
-BEGIN {
-    unshift @INC, Plow::Hook->new();
 }
 
 1;

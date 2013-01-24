@@ -17,11 +17,11 @@ use Plow;
 my $libpath = File::Spec->catdir($FindBin::RealBin, '../lib');
 
 if (defined $eval) {
-    eval plowfy('-e', $eval);
+    eval Plow->plowfy('-e', $eval);
     die $@ if $@;
 } elsif (@ARGV > 0) {
     my $fname = shift @ARGV;
-    eval plowfy($fname, do {
+    eval Plow->plowfy($fname, do {
         open my $fh, '<', $fname;
         local $/;
         <$fh>
@@ -32,7 +32,7 @@ if (defined $eval) {
     run_repl();
 } else {
     # run the code from stdin.
-    eval plowfy('-', do { local $/; <STDIN> });
+    eval Plow->plowfy('-', do { local $/; <STDIN> });
     die $@ if $@;
 }
 
@@ -40,18 +40,8 @@ sub run_repl {
     require Term::ReadLine;
     my $term = Term::ReadLine->new('plow');
     while ( defined ($_ = $term->readline('plow> ')) ) {
-        eval plowfy('-', $_);
+        eval Plow->plowfy('-', $_);
         warn $@ if $@;
     }
-}
-
-sub plowfy {
-    my ($fname, $src) = @_;
-
-    return join("\n",
-        "use 5.10.0; use utf8::all; use Plow::Signatures;",
-        "#line 1 $fname",
-        $src,
-    );
 }
 
