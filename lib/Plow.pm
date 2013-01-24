@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use utf8;
 
-use 5.16.2;
+use 5.10.0;
 
 use Time::Piece qw/:override/; # override localtime, gmtime
 
