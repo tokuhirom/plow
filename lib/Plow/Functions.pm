@@ -7,7 +7,6 @@ use List::Util ();
 use Path::Class ();
 use Carp ();
 use Data::Dumper ();
-use Moo ();
 use Class::XSAccessor ();
 
 sub import {
