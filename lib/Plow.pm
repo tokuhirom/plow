@@ -62,6 +62,11 @@ BEGIN {
 1;
 
 __END__
+
+=head1 NAME
+
+Plow - plow plow plow
+
 sub UNIVERSAL::AUTOLOAD {
     warn "AH";
     if ($UNIVERSAL::AUTOLOAD =~ /::(file|max|min)\z/) {
