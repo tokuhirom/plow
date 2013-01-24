@@ -14,11 +14,12 @@ use File::Spec;
 
 my $libpath = File::Spec->catdir($FindBin::RealBin, '../lib');
 
+$ENV{PERLIO} = ':utf8';
+
 if (defined $eval) {
-    system($^X, "-I$libpath", '-MPlow', '-CSDLA', '-E', $eval, '--', @ARGV);
+    exec($^X, "-I$libpath", '-MPlow', '-CSDLA', '-E', $eval, '--', @ARGV);
 } elsif (@ARGV > 0) {
-    $ENV{PERLIO} = ':utf8';
-    system($^X, "-I$libpath", '-MPlow', '-CSDLA', '--', @ARGV);
+    exec($^X, "-I$libpath", '-MPlow', '-CSDLA', '--', @ARGV);
 } elsif (-t STDIN) {
     # repl
     ...

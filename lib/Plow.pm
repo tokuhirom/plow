@@ -5,13 +5,65 @@ use utf8;
 
 use 5.16.2;
 
-use Time::Piece qw/:override/;
+use Time::Piece qw/:override/; # override localtime, gmtime
 
-# add some more builtin functions
-use List::Util ();
-use Path::Class ();
-use Carp ();
+use File::stat (); # make stat() function OO.
+
+package Plow::Hook {
+    sub new {
+        my $class = shift;
+        bless {}, $class;
+    }
+
+    sub Plow::Hook::INC {
+        my $self = shift;
+        my $origmodule = shift;
+        my $module = $origmodule;
+        $module =~ s/\.pm$// or return;
+        $module .= ".plow";
+
+        for my $path (@INC) {
+            next if ref $path; # for deep recursion
+
+            if (-f "$path/$module") {
+                my $fullpath = "$path/$module";
+                $INC{$origmodule} = $fullpath;
+                open my $fh, '<', $fullpath;
+                my @src = 'use 5.16.2; use utf8;';
+                return sub {
+                    if (@src) {
+                        $_ = shift @src;
+                        return 1;
+                    } else {
+                        $_ = <$fh>;
+                        if (/package\s+([A-Za-z_][A-Za-z0-9_:]*)/) {
+                            Plow::Functions->export_to($1);
+                        }
+                        return !eof($fh);
+                    }
+                };
+            }
+        }
+
+        return;
+    }
+}
+
+
+{
+    package main;
+    use Plow::Functions;
+}
+
+BEGIN {
+    unshift @INC, Plow::Hook->new();
+}
+
+1;
+
+__END__
 sub UNIVERSAL::AUTOLOAD {
+    warn "AH";
     if ($UNIVERSAL::AUTOLOAD =~ /::(file|max|min)\z/) {
         my $code = +{
             file => sub {
@@ -30,9 +82,7 @@ sub UNIVERSAL::AUTOLOAD {
     }
     Carp::croak("Undefined subroutine &${UNIVERSAL::AUTOLOAD} called");
 }
-sub UNIVERSAL::DESTROY { }
 
-use File::stat (); # make stat() function OO.
-
-1;
-
+#   binmode *STDIN,  ':encoding(utf-8)';
+#   binmode *STDOUT, ':encoding(utf-8)';
+#   binmode *STDERR, ':encoding(utf-8)';

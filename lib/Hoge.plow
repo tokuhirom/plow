@@ -1,0 +1,6 @@
+package Hoge;
+say 'ok';
+file('/etc/passwd');
+
+has x => ( is => 'ro' );
+1;
