@@ -14,7 +14,7 @@ sub plowfy {
     my ($class, $fname, $src) = @_;
 
     return join("\n",
-        "use 5.10.0; use utf8::all; use Plow::Signatures; use Plow::Signatures::Beam;",
+        "use 5.10.0; use utf8::all; use Plow::Signatures::Func; use Plow::Signatures::Beam;",
         "#line 1 $fname",
         $src,
     );
@@ -42,7 +42,8 @@ sub beam {
 {
     package main;
     use Plow::Functions;
-    use Plow::Signatures;
+    use Plow::Signatures::Func;
+    use Plow::Signatures::Beam;
 }
 
 1;

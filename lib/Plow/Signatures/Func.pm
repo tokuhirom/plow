@@ -1,4 +1,4 @@
-package Plow::Signatures;
+package Plow::Signatures::Func;
 use strict;
 use warnings;
 use utf8;
