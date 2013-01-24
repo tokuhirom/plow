@@ -54,27 +54,3 @@ __END__
 
 Plow - plow plow plow
 
-sub UNIVERSAL::AUTOLOAD {
-    warn "AH";
-    if ($UNIVERSAL::AUTOLOAD =~ /::(file|max|min)\z/) {
-        my $code = +{
-            file => sub {
-                return Path::Class::file(@_);
-            },
-            max => sub {
-                return List::Util::max(@_);
-            },
-            min => sub {
-                return List::Util::min(@_);
-            },
-        }->{$1};
-        if ($code) {
-            return $code->(@_);
-        }
-    }
-    Carp::croak("Undefined subroutine &${UNIVERSAL::AUTOLOAD} called");
-}
-
-#   binmode *STDIN,  ':encoding(utf-8)';
-#   binmode *STDOUT, ':encoding(utf-8)';
-#   binmode *STDERR, ':encoding(utf-8)';
