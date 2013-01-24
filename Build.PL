@@ -21,6 +21,7 @@ my $build = Module::Build->new(
         'Sub::Name'                     => 0,
         'utf8::all'                     => 0,
         'Term::ReadLine'                => 0,
+        'true'                          => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },
