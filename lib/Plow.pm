@@ -8,6 +8,7 @@ use 5.10.0;
 use Time::Piece qw/:override/; # override localtime, gmtime
 
 use File::stat (); # make stat() function OO.
+use Devel::Declare::MethodInstaller::Simple;
 
 package Plow::Hook {
     sub new {
@@ -29,7 +30,10 @@ package Plow::Hook {
                 my $fullpath = "$path/$module";
                 $INC{$origmodule} = $fullpath;
                 open my $fh, '<', $fullpath;
-                my @src = 'use 5.10.0; use strict; use warnings; use utf8;';
+                my @src = (
+                    "use 5.10.0; use strict; use warnings; use utf8::all;\n",
+                    "#line 1 $module\n",
+                );
                 return sub {
                     if (@src) {
                         $_ = shift @src;
@@ -37,7 +41,9 @@ package Plow::Hook {
                     } else {
                         $_ = <$fh>;
                         if (/package\s+([A-Za-z_][A-Za-z0-9_:]*)/) {
-                            Plow::Functions->export_to($1);
+                            my $pkg = $1;
+                            Plow::Functions->export_to($pkg);
+                            # Plow::Signatures->install($pkg);
                         }
                         return !eof($fh);
                     }
@@ -49,10 +55,13 @@ package Plow::Hook {
     }
 }
 
-
 {
     package main;
     use Plow::Functions;
+    use Plow::Signatures;
+#   BEGIN {
+#       Plow::Signatures->install(__PACKAGE__);
+#   }
 }
 
 BEGIN {

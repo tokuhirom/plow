@@ -17,6 +17,9 @@ my $build = Module::Build->new(
         'parent'                        => '0',
         'Class::XSAccessor'             => 0,
         'Path::Class'                   => 0,
+        'Devel::Declare'                => 0,
+        'Sub::Name'                     => 0,
+        'utf8::all'                     => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },

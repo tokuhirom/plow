@@ -1,6 +1,7 @@
 package Hoge;
 say 'ok';
 file('/etc/passwd');
+warn "AAA";
 
 has x => ( is => 'ro' );
 1;
