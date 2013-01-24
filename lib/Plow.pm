@@ -59,9 +59,6 @@ package Plow::Hook {
     package main;
     use Plow::Functions;
     use Plow::Signatures;
-#   BEGIN {
-#       Plow::Signatures->install(__PACKAGE__);
-#   }
 }
 
 BEGIN {

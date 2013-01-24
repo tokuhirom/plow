@@ -31,6 +31,8 @@ sub export_to {
     *{"${pkg}::has"} = \&has;
     *{"${pkg}::new"} = \&new;
 
+    *{"${pkg}::slurp"} = \&slurp;
+
     *{"${pkg}::p"} = \&p;
 }
 
@@ -59,6 +61,14 @@ sub has {
     if (%opts) {
         Carp::confess("Invalid options for has.: " . Data::Dumper::Dumper(\%opts));
     }
+}
+
+sub slurp {
+    my $fname = shift;
+    my $op = shift || '<:utf8';
+    open my $fh, $op, $fname
+        or Carp::croak "$fname: $!";
+    do { local $/; <$fh> };
 }
 
 sub new {

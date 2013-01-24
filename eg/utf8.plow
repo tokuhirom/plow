@@ -1,15 +1,13 @@
 unshift @INC, 'eg/lib';
+use Test::More;
 
-warn utf8::is_utf8('あいう');
+ok(utf8::is_utf8('あいう'));
 warn 'あいう';
 require Hoge;
 
-my $src = file('eg/utf8.plow')->slurp(iomode => '<:utf8');
-warn utf8::is_utf8($src);
-my $src2 = file('eg/utf8.plow')->slurp();
-warn utf8::is_utf8($src2);
-my $src3 = file('eg/utf8.plow')->slurp(iomode => '<:raw');
-warn utf8::is_utf8($src3);
+ok(utf8::is_utf8(slurp(__FILE__)), 'utf8 by default');
+ok(utf8::is_utf8(slurp(__FILE__, '<:utf8')));
+ok(!utf8::is_utf8(slurp(__FILE__, '<:raw')));
 
 p([[[1,3,3,],4,44,],452]);
 
@@ -18,3 +16,5 @@ func foo() {
 }
 
 foo();
+
+done_testing;
