@@ -29,7 +29,7 @@ package Plow::Hook {
                 my $fullpath = "$path/$module";
                 $INC{$origmodule} = $fullpath;
                 open my $fh, '<', $fullpath;
-                my @src = 'use 5.16.2; use utf8;';
+                my @src = 'use 5.10.0; use strict; use warnings; use utf8;';
                 return sub {
                     if (@src) {
                         $_ = shift @src;
