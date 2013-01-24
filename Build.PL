@@ -20,6 +20,7 @@ my $build = Module::Build->new(
         'Devel::Declare'                => 0,
         'Sub::Name'                     => 0,
         'utf8::all'                     => 0,
+        'Term::ReadLine'                => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },
