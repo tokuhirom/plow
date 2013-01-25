@@ -48,3 +48,20 @@ sub run_repl {
     }
 }
 
+__END__
+
+=head1 NAME
+
+plow - plow plow plow
+
+=head1 SYNOPSIS
+
+    % plow foo.plow
+
+=head1 DESCRIPTION
+
+Plow is a development suite for Perl5 hackers.
+
+=head1 What's plow?
+
+TBD

@@ -65,3 +65,29 @@ __END__
 
 Plow - plow plow plow
 
+=head1 SYNOPSIS
+
+  use Plow;
+
+=head1 DESCRIPTION
+
+Plow is development suite for Perl5.
+
+This distribution provides L<plow> command. Please see it for more details.
+
+B<THIS IS A DEVELOPMENT RELEASE. API MAY CHANGE WITHOUT NOTICE>.
+
+=head1 AUTHOR
+
+Tokuhiro Matsuno E<lt>tokuhirom AAJKLFJEF@ GMAIL COME<gt>
+
+=head1 SEE ALSO
+
+=head1 LICENSE
+
+Copyright (C) Tokuhiro Matsuno
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

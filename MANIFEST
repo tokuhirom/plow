@@ -1,7 +1,20 @@
 bin/plow
 Build.PL
-eg/plow
-lib/Hoge.plow
+eg/lib/Hoge.plow
+eg/utf8.plow
 lib/Plow.pm
 lib/Plow/Functions.pm
+lib/Plow/Signatures/Beam.pm
+lib/Plow/Signatures/Class.pm
+lib/Plow/Signatures/Func.pm
+lib/Plow/Signatures/Method.pm
+lib/Plow/Stdlib.pm
 MANIFEST			This list of files
+README.md
+t/00_compile.t
+xt/01_podspell.t
+xt/02_perlcritic.t
+xt/03_pod.t
+xt/04_minimum_version.t
+xt/05_cpan_meta.t
+xt/06_meta_author.t
