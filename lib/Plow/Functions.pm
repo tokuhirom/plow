@@ -42,39 +42,12 @@ sub p($) {
     print Data::Dumper::Dumper($_[0]), "\n";
 }
 
-sub has {
-    my $caller = caller(0);
-    my $meth = shift;
-    my %opts = @_;
-    my $type = +{
-        ro => 'getters',
-        rw => 'accessors',
-    }->{delete $opts{is}};
-    unless ($type) {
-        Carp::confess("Missing or invalid 'is' parameter");
-    }
-    Class::XSAccessor->import(
-        $type => {
-            $meth => $meth
-        },
-    );
-    if (%opts) {
-        Carp::confess("Invalid options for has.: " . Data::Dumper::Dumper(\%opts));
-    }
-}
-
 sub slurp {
     my $fname = shift;
     my $op = shift || '<:utf8';
     open my $fh, $op, $fname
         or Carp::croak "$fname: $!";
     do { local $/; <$fh> };
-}
-
-sub new {
-    my $class = shift;
-    my %args = @_==1 ? %{$_[0]} : @_;
-    return bless {%args}, $class;
 }
 
 1;
