@@ -17,3 +17,6 @@ Need to implement original one?
 
 ### autoboxing?
 
+### static method
+
+### method

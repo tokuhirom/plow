@@ -1,4 +1,5 @@
 use Test::More;
+use 5.16.0;
 
 ok(utf8::is_utf8('あいう'));
 warn 'あいう';
@@ -13,6 +14,15 @@ p([[[1,3,3,],4,44,],452]);
 func foo() {
     say "HO";
 }
+
+class Dog {
+    sub eat {
+        warn "Delicious!";
+    }
+};
+
+my $dog = Dog->new();
+$dog->eat();
 
 foo();
 
