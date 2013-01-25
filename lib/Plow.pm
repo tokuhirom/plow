@@ -13,6 +13,16 @@ use File::stat (); # make stat() function OO.
 
 use Plow::Stdlib;
 
+sub import {
+    feature->import(qw/say state switch unicode_strings unicode_eval/);
+    true->import;
+    utf8::all->import;
+    autovivification->unimport;
+    Plow::Signatures::Func->import;
+    Plow::Signatures::Class->import;
+    Plow::Signatures::Beam->import;
+}
+
 sub plowfy {
     my ($class, $fname, $src) = @_;
 
