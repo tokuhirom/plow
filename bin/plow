@@ -40,8 +40,11 @@ sub run_repl {
     require Term::ReadLine;
     my $term = Term::ReadLine->new('plow');
     while ( defined ($_ = $term->readline('plow> ')) ) {
-        eval Plow->plowfy('-', $_);
+        my $ret = eval Plow->plowfy('-', $_);
         warn $@ if $@;
+        local $Data::Dumper::Terse  = 1;
+        local $Data::Dumper::Indent = 0;
+        print Data::Dumper::Dumper($ret), "\n";
     }
 }
 

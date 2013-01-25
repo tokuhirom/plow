@@ -5,6 +5,13 @@ plow is perl + php-ish easyness.
 
 Perl is great, but it has some tiresome things. Plow resolve it.
 
+## plow?
+
+    class MyClass {
+      method run() {
+      }
+    }
+
 ## What's difference between perl5i?
 
 (TBD)
@@ -19,4 +26,4 @@ Need to implement original one?
 
 ### static method
 
-### method
+

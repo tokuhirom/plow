@@ -24,6 +24,8 @@ my $build = Module::Build->new(
         'true'                          => 0,
         'autovivification'              => 0,
         'Moo'                           => 0,
+        'JSON::XS'                      => 0,
+        'Furl'                          => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },

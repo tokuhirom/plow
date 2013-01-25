@@ -4,10 +4,8 @@ use warnings;
 use utf8;
 
 use List::Util ();
-use Path::Class ();
 use Carp ();
 use Data::Dumper ();
-use Class::XSAccessor ();
 
 sub import {
     my $class = shift;
@@ -16,20 +14,24 @@ sub import {
 }
 
 sub export_to {
-    my ($class, $pkg) = @_;
+    my ( $class, $pkg ) = @_;
 
     no strict 'refs';
     *{"${pkg}::min"} = \&List::Util::min;
     *{"${pkg}::max"} = \&List::Util::max;
 
-    *{"${pkg}::file"} = \&Path::Class::file;
-    *{"${pkg}::dir"} = \&Path::Class::dir;
+    *{"${pkg}::file"} = \&file;
+    *{"${pkg}::dir"}  = \&dir;
 
-    *{"${pkg}::croak"} = \&Carp::croak;
+    *{"${pkg}::decode_json"} = \&decode_json;
+    *{"${pkg}::encode_json"} = \&encode_json;
+
+    *{"${pkg}::furl"}      = \&furl;
+    *{"${pkg}::http_get"}  = \&http_get;
+    *{"${pkg}::http_post"} = \&http_post;
+
+    *{"${pkg}::croak"}   = \&Carp::croak;
     *{"${pkg}::confess"} = \&Carp::confess;
-
-    *{"${pkg}::has"} = \&has;
-    *{"${pkg}::new"} = \&new;
 
     *{"${pkg}::slurp"} = \&slurp;
 
@@ -49,6 +51,29 @@ sub slurp {
         or Carp::croak "$fname: $!";
     do { local $/; <$fh> };
 }
+
+sub file { File->new(@_) }
+sub dir  { Dir->new(@_) }
+
+our $JSON;
+sub _json {
+    $JSON ||= do {
+        require JSON::XS;
+        JSON::XS->new()->ascii(1);
+    };
+}
+sub decode_json { _json()->decode(@_) }
+sub encode_json { _json()->encode(@_) }
+
+our $FURL;
+sub furl {
+    $FURL ||= do {
+        require Furl;
+        Furl->new();
+    };
+}
+sub http_get { furl()->get(@_) }
+sub http_post { furl()->post(@_) }
 
 1;
 

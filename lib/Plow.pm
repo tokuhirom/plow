@@ -11,6 +11,8 @@ use Time::Piece qw/:override/; # override localtime, gmtime
 
 use File::stat (); # make stat() function OO.
 
+use Plow::Stdlib;
+
 sub plowfy {
     my ($class, $fname, $src) = @_;
 
@@ -19,27 +21,6 @@ sub plowfy {
         "#line 1 $fname",
         $src,
     );
-}
-
-{
-    package # hide from pause
-        Class;
-
-    my $i = 0;
-    sub new {
-        my ($class, $name) = @_;
-        $name //= "Class::Anon$i";
-        bless {name => $name}, $class;
-    }
-    sub add_method {
-        my ($self, $name, $code) = @_;
-        no strict 'refs';
-        *{"$self->{name}::${name}"} = $code;
-    }
-    sub name {
-        my $self = shift;
-        return $self->{name};
-    }
 }
 
 sub beam {

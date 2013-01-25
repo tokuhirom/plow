@@ -1,3 +1,5 @@
 _build/
 MYMETA.*
 *.bak
+nytprof/
+nytprof.out
