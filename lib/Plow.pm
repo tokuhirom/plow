@@ -45,6 +45,7 @@ sub beam {
             my $fullpath = "$path/$module";
             $INC{$module} = $fullpath;
             open my $fh, '<', $fullpath;
+            ## no critic.
             eval Plow->plowfy($fullpath, do { local $/; <$fh> });
             return;
         }
