@@ -1,4 +1,4 @@
-package Plow::Signatures::Beam;
+package Plow::Syntax::Beam;
 use strict;
 use warnings;
 use utf8;

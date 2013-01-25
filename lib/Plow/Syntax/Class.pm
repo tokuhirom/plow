@@ -1,4 +1,4 @@
-package Plow::Signatures::Class;
+package Plow::Syntax::Class;
 use strict;
 use warnings;
 use utf8;
@@ -28,7 +28,7 @@ sub import {
 
 sub handle_class {
     my ($usepack, $use, $inpack, $name, $proto, $is_block) = @_;
-    return (sub (&) { shift; }, undef, "package ${name}; use Moo; use Plow::Signatures::Method;");
+    return (sub (&) { shift; }, undef, "package ${name}; use Moo; use Plow::Syntax::Method;");
 }
 
 1;

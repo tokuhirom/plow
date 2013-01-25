@@ -1,4 +1,4 @@
-package Plow::Signatures::Func;
+package Plow::Syntax::Method;
 use strict;
 use warnings;
 use utf8;
@@ -13,17 +13,13 @@ sub import {
         name => 'method',
         into => $pkg,
     );
-    $class->install_methodhandler(
-        name => 'func',
-        into => $pkg,
-    );
 }
 
 sub parse_proto {
     my $self = shift;
     my ($proto) = @_;
     $proto ||= '';
-    my $inject = '';
+    my $inject = 'my $self=shift @_;';
     $inject .= "my ($proto) = \@_;" if defined $proto and length $proto;
     return $inject;
 }
@@ -54,3 +50,4 @@ sub code_for {
 }
 
 1;
+

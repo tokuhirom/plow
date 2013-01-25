@@ -1,5 +1,6 @@
 use Test::More;
 use 5.16.0;
+use lib 'eg/lib/';
 
 ok(utf8::is_utf8('あいう'));
 warn 'あいう';

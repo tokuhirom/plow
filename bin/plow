@@ -11,7 +11,7 @@ GetOptions(
 
 use FindBin;
 use File::Spec;
-use Plow::Signatures::Func;
+use Plow::Syntax::Func;
 use Plow;
 
 my $libpath = File::Spec->catdir($FindBin::RealBin, '../lib');
