@@ -15,14 +15,22 @@ func foo() {
     say "HO";
 }
 
+func bar($ah) {
+    say "HO $ah";
+}
+
+bar('x');
+
 class Dog {
-    sub eat {
-        warn "Delicious!";
+    has 'name' => (is => 'ro');
+
+    method eat($stuff) {
+        warn "$stuff is delicious!";
     }
 };
 
 my $dog = Dog->new();
-$dog->eat();
+$dog->eat('dog food');
 
 foo();
 

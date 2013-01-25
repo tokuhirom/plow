@@ -28,7 +28,7 @@ sub import {
 
 sub handle_class {
     my ($usepack, $use, $inpack, $name, $proto, $is_block) = @_;
-    return (sub (&) { shift; }, undef, "package ${name}; use Moo;");
+    return (sub (&) { shift; }, undef, "package ${name}; use Moo; use Plow::Signatures::Method;");
 }
 
 1;
