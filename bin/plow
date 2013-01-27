@@ -29,27 +29,13 @@ if (defined $eval) {
     die $@ if $@;
 } elsif (-t STDIN) {
     # repl
-    run_repl();
+    require Plow::REPL;
+    my $repl = Plow::REPL->new();
+    $repl->run();
 } else {
     # run the code from stdin.
     eval Plow->plowfy('-', do { local $/; <STDIN> });
     die $@ if $@;
-}
-
-sub run_repl {
-    require Term::ReadLine;
-    require Term::ANSIColor;
-
-    my $term = Term::ReadLine->new('plow');
-    warn $term->ReadLine if $ENV{PLOW_DEBUG};
-    while ( defined ($_ = $term->readline(Term::ANSIColor::colored(['yellow'], 'plow> '))) ) {
-        my $ret = eval Plow->plowfy('-', $_);
-        warn Term::ANSIColor::colored(['red'], $@) if $@;
-        local $Data::Dumper::Terse  = 1;
-        local $Data::Dumper::Indent = 0;
-        print Term::ANSIColor::colored(['blue'], Data::Dumper::Dumper($ret)), "\n";
-        $term->addhistory($_) if /\S/;
-    }
 }
 
 __END__

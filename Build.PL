@@ -28,6 +28,7 @@ my $build = Module::Build->new(
         'Furl'                          => 0,
         'URI::Escape::XS'               => 0,
         'Term::ANSIColor'               => 0,
+        'Try::Tiny'                     => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },

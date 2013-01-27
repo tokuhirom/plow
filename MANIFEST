@@ -4,11 +4,12 @@ eg/lib/Hoge.plow
 eg/utf8.plow
 lib/Plow.pm
 lib/Plow/Functions.pm
-lib/Plow/Signatures/Beam.pm
-lib/Plow/Signatures/Class.pm
-lib/Plow/Signatures/Func.pm
-lib/Plow/Signatures/Method.pm
+lib/Plow/REPL.pm
 lib/Plow/Stdlib.pm
+lib/Plow/Syntax/Beam.pm
+lib/Plow/Syntax/Class.pm
+lib/Plow/Syntax/Func.pm
+lib/Plow/Syntax/Method.pm
 MANIFEST			This list of files
 README.md
 t/00_compile.t
