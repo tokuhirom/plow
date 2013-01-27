@@ -38,6 +38,9 @@ sub beam {
     $module =~ s!::!/!g;
     $module .= ".plow";
 
+    # require only once.
+    return if $INC{$module};
+
     for my $path (@INC) {
         next if ref $path; # for deep recursion
 
