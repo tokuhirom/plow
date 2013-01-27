@@ -38,13 +38,17 @@ if (defined $eval) {
 
 sub run_repl {
     require Term::ReadLine;
+    require Term::ANSIColor;
+
     my $term = Term::ReadLine->new('plow');
-    while ( defined ($_ = $term->readline('plow> ')) ) {
+    warn $term->ReadLine if $ENV{PLOW_DEBUG};
+    while ( defined ($_ = $term->readline(Term::ANSIColor::colored(['yellow'], 'plow> '))) ) {
         my $ret = eval Plow->plowfy('-', $_);
-        warn $@ if $@;
+        warn Term::ANSIColor::colored(['red'], $@) if $@;
         local $Data::Dumper::Terse  = 1;
         local $Data::Dumper::Indent = 0;
-        print Data::Dumper::Dumper($ret), "\n";
+        print Term::ANSIColor::colored(['blue'], Data::Dumper::Dumper($ret)), "\n";
+        $term->addhistory($_) if /\S/;
     }
 }
 

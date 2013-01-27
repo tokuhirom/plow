@@ -26,6 +26,8 @@ my $build = Module::Build->new(
         'Moo'                           => 0,
         'JSON::XS'                      => 0,
         'Furl'                          => 0,
+        'URI::Escape::XS'               => 0,
+        'Term::ANSIColor'               => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },
