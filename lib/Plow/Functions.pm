@@ -19,6 +19,7 @@ sub export_to {
     no strict 'refs';
     *{"${pkg}::min"} = \&List::Util::min;
     *{"${pkg}::max"} = \&List::Util::max;
+    *{"${pkg}::sum"} = \&sum;
 
     *{"${pkg}::file"} = \&file;
     *{"${pkg}::dir"}  = \&dir;
@@ -29,6 +30,9 @@ sub export_to {
     *{"${pkg}::furl"}      = \&furl;
     *{"${pkg}::http_get"}  = \&http_get;
     *{"${pkg}::http_post"} = \&http_post;
+
+    *{"${pkg}::uri_escape"} = \&uri_escape;
+    *{"${pkg}::uri_unescape"} = \&uri_unescape;
 
     *{"${pkg}::croak"}   = \&Carp::croak;
     *{"${pkg}::confess"} = \&Carp::confess;
@@ -74,6 +78,24 @@ sub furl {
 }
 sub http_get { furl()->get(@_) }
 sub http_post { furl()->post(@_) }
+
+sub uri_escape {
+    require URI::Escape::XS;
+    URI::Escape::XS::uri_escape(@_);
+}
+
+sub uri_unescape {
+    require URI::Escape::XS;
+    URI::Escape::XS::uri_unescape(@_);
+}
+
+sub sum {
+    my $n = 0;
+    for my $e (@_) {
+        $n += $e;
+    }
+    return $n;
+}
 
 1;
 
