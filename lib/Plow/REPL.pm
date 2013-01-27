@@ -22,6 +22,7 @@ sub run {
     while ( defined ($_ = $term->readline(colored(['yellow'], 'plow> '))) ) {
         my $PACKAGE = 'main';
         my $src = Plow->plowfy('-', $_);
+        ## no critic.
         my $code = eval join('',
             "package $PACKAGE;",
             (map { "my $_;" } keys %{$lex->get_context('_')}),
