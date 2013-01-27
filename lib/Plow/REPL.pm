@@ -7,6 +7,7 @@ use Term::ReadLine;
 use Term::ANSIColor qw/colored/;
 use Try::Tiny;
 use Data::Dumper;
+use Lexical::Persistence;
 
 sub new {
     my $class = shift;
@@ -17,16 +18,22 @@ sub run {
     my ($class) = @_;
 
     my $term = Term::ReadLine->new('plow');
+    my $lex = Lexical::Persistence->new();
     while ( defined ($_ = $term->readline(colored(['yellow'], 'plow> '))) ) {
         my $PACKAGE = 'main';
         my $src = Plow->plowfy('-', $_);
-        my $code = eval "package $PACKAGE; sub { $src; BEGIN { \$PACKAGE = __PACKAGE__ }};";
+        my $code = eval join('',
+            "package $PACKAGE;",
+            (map { "my $_;" } keys %{$lex->get_context('_')}),
+            "sub { $src }",
+            ';BEGIN { $PACKAGE = __PACKAGE__ }'
+        );
         if ($@) {
             print STDERR colored(['red'], $@);
             next;
         }
         try {
-            my $ret = $code->();
+            my $ret = $lex->wrap($code)->();
 
             local $Data::Dumper::Terse  = 1;
             local $Data::Dumper::Indent = 0;

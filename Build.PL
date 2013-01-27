@@ -29,6 +29,7 @@ my $build = Module::Build->new(
         'URI::Escape::XS'               => 0,
         'Term::ANSIColor'               => 0,
         'Try::Tiny'                     => 0,
+        'Lexical::Persistence'          => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },
