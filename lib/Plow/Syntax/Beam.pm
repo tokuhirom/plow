@@ -27,9 +27,12 @@ sub parser {
     $self->skip_declarator;
     my $name   = $self->strip_name
         or die "Missing name after 'beam' keyword";
-    $self->shadow(sub { });
 
-    Plow->beam($name);
+    my $linestr = $self->get_linestr;
+    substr($linestr, $self->offset, 0) = ";BEGIN { Plow->beam(q{$name}) }";
+    $self->set_linestr($linestr);
+
+    $self->shadow(sub { });
 
     return;
 }

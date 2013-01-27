@@ -1,0 +1,12 @@
+use Test::More;
+
+BEGIN {
+    $main::X = 0;
+    $main::Y = 0;
+}
+beam t::001_core::lib::Hoge;
+beam t::001_core::lib::Hoge; # load twice.
+
+is($main::X, 1, 'ran Hoge only once.');
+is($main::Y, 2, 'ran Hoge::import twice.');
+

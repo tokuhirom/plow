@@ -6,6 +6,7 @@ use utf8;
 use 5.10.0;
 
 our $VERSION = '1.0.0';
+use Devel::Declare (); # need to load Devel::Declare first.
 
 use Time::Piece qw/:override/; # override localtime, gmtime
 
@@ -35,25 +36,44 @@ sub plowfy {
 
 sub beam {
     my ($class, $module) = @_;
+    my $pkg = $module;
     $module =~ s!::!/!g;
     $module .= ".plow";
 
     # require only once.
-    return if $INC{$module};
+    if ($INC{$module}) {
+        if (my $import = $pkg->can('import')) {
+            goto $import;
+        }
+        return;
+    }
 
     for my $path (@INC) {
         next if ref $path; # for deep recursion
 
         if (-f "$path/$module") {
             my $fullpath = "$path/$module";
-            $INC{$module} = $fullpath;
             open my $fh, '<', $fullpath;
             ## no critic.
             eval Plow->plowfy($fullpath, do { local $/; <$fh> });
+            die $@ if $@;
+            $INC{$module} = $fullpath;
+            if (my $import = $pkg->can('import')) {
+                goto $import;
+            }
             return;
         }
     }
     die "$module not found in library path( @{[ join(', ', @INC) ]} )\n";
+}
+
+sub load {
+    my ($class, $fullpath) = @_;
+    open my $fh, '<', $fullpath
+        or Carp::croak "Cannot load $fullpath: $!";
+    ## no critic.
+    eval Plow->plowfy($fullpath, do { local $/; <$fh> });
+    die $@ if $@;
 }
 
 {
