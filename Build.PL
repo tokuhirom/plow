@@ -30,6 +30,7 @@ my $build = Module::Build->new(
         'Term::ANSIColor'               => 0,
         'Try::Tiny'                     => 0,
         'Lexical::Persistence'          => 0,
+        'signatures'                    => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },

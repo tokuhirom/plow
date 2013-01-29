@@ -2,6 +2,7 @@ package t::001_core::lib::Hoge;
 
 sub import {
     $main::Y += 1;
+    $main::CALLER = caller(0);
 }
 
 $main::X += 1;

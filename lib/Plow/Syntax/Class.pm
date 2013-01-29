@@ -21,7 +21,11 @@ sub import {
             'class' => [
                 DECLARE_PACKAGE,
                 \&handle_class,
-            ]
+            ],
+            'package' => [
+                DECLARE_PACKAGE,
+                \&handle_class,
+            ],
         }
     );
 }
