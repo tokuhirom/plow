@@ -1,6 +1,7 @@
 use Test::More;
 use 5.16.0;
 use lib 'eg/lib/';
+use signatures;
 
 ok(utf8::is_utf8('あいう'));
 warn 'あいう';
@@ -22,6 +23,12 @@ func foo() {
 func bar($ah) {
     say "HO $ah";
 }
+
+sub yay($x, $b) {
+    warn "$x, $b";
+}
+
+yay("aaa", "bbb");
 
 bar('x');
 

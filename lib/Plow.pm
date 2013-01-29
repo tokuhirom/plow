@@ -19,6 +19,7 @@ sub import {
     true->import;
     utf8::all->import;
     autovivification->unimport;
+    signatures->import;
     Plow::Syntax::Func->import;
     Plow::Syntax::Class->import;
     Plow::Syntax::Beam->import;
@@ -28,7 +29,7 @@ sub plowfy {
     my ($class, $fname, $src) = @_;
 
     return join("\n",
-        "use 5.10.0; no autovivification; use true; use utf8::all; use Plow::Syntax::Func; use Plow::Syntax::Class; use Plow::Syntax::Beam;",
+        "use 5.10.0; use signatures; no autovivification; use true; use utf8::all; use Plow::Syntax::Func; use Plow::Syntax::Class; use Plow::Syntax::Beam;",
         "#line 1 $fname",
         $src,
     );
