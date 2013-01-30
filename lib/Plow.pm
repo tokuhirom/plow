@@ -6,7 +6,6 @@ use utf8;
 use 5.10.0;
 
 our $VERSION = '1.0.0';
-use Devel::Declare (); # need to load Devel::Declare first.
 
 use Time::Piece qw/:override/; # override localtime, gmtime
 
@@ -19,6 +18,8 @@ use Plow::Syntax;
 
 sub import {
     my $caller = caller(0);
+    strict->import;
+    warnings->import;
     feature->import(qw/say state switch unicode_strings unicode_eval/);
     true->import;
     utf8::all->import;
@@ -34,7 +35,17 @@ sub plowfy {
     my ($class, $fname, $src) = @_;
 
     return join("\n",
-        "package main;use 5.10.0; use signatures; no autovivification; use true; use utf8::all; use Plow::Syntax::Func; use Plow::Syntax; use Plow::Syntax::Beam;",
+        join(';', (
+            'package main',
+            'use 5.10.0',
+            'use signatures',
+            'no autovivification',
+            'use true',
+            'use utf8::all',
+            'use Plow::Syntax::Func',
+            'use Plow::Syntax',
+            'use Plow::Syntax::Beam',
+        )) . ';',
         "#line 1 $fname",
         $src,
     );
