@@ -31,6 +31,8 @@ my $build = Module::Build->new(
         'Try::Tiny'                     => 0,
         'Lexical::Persistence'          => 0,
         'signatures'                    => 0,
+        'B::Hooks::Parser'              => 0,
+        'B::OPCheck'                    => 0,
     },
 
     no_index    => { 'directory' => [ 'inc' ] },

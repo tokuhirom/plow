@@ -1,7 +1,6 @@
 use Test::More;
 use 5.16.0;
 use lib 'eg/lib/';
-use signatures;
 
 ok(utf8::is_utf8('あいう'));
 warn 'あいう';
@@ -16,11 +15,11 @@ use Digest::MD5 qw/md5_hex/;
 
 warn md5_hex('hoge');
 
-func foo() {
+sub foo() {
     say "HO";
 }
 
-func bar($ah) {
+sub bar($ah) {
     say "HO $ah";
 }
 
@@ -32,13 +31,13 @@ yay("aaa", "bbb");
 
 bar('x');
 
-class Dog {
+package Dog {
     has 'name' => (is => 'ro');
 
-    method eat($stuff) {
+    sub eat($self, $stuff) {
         warn "$stuff is delicious!";
     }
-};
+}
 
 my $dog = Dog->new();
 $dog->eat('dog food');
