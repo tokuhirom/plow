@@ -13,16 +13,20 @@ use Time::Piece qw/:override/; # override localtime, gmtime
 use File::stat (); # make stat() function OO.
 
 use Plow::Stdlib;
+use signatures;
+use B::Hooks::Parser;
+use Plow::Syntax;
 
 sub import {
+    my $caller = caller(0);
     feature->import(qw/say state switch unicode_strings unicode_eval/);
     true->import;
     utf8::all->import;
-    signatures->import;
+    signatures->setup_for($caller);
     autovivification->unimport;
     Plow::Syntax->import;
     Plow::Syntax::Func->import;
-    # Plow::Syntax::Class->import;
+#   Plow::Syntax::Class->import;
     Plow::Syntax::Beam->import;
 }
 
